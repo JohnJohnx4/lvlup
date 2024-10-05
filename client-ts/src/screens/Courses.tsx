@@ -1,19 +1,17 @@
-import { CourseCard } from "components/Course/CourseCard";
 import { withLayout } from "src/hooks/withLayout";
-import { courseMock } from "src/utils/mocks/courseMock";
+import { getCourseArray } from "src/utils/mocks/courseMock";
 import styles from "./index.module.css";
+import { CourseContainer } from "components/CourseContainer/CourseContainer";
 
 const CoursesScreen = () => {
-  const courses = new Array(10)
-    .fill(0)
-    .map((_, i) => ({ ...courseMock, id: "course-card-" + (i + 1) }));
+  const courses = getCourseArray(5);
+
   return (
     <div className={styles.root}>
       <div>Courses</div>
+      <div>Assigned</div>
       <div className={styles["course-cards"]}>
-        {courses.map((course) => (
-          <CourseCard key={course.id} course={course} />
-        ))}
+        <CourseContainer courses={courses} />
       </div>
     </div>
   );

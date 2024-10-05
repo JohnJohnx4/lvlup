@@ -3,9 +3,8 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import connectDB from "./config/database";
 import typeDefs from "./schemas";
-import userResolvers from "./resolvers/userResolvers";
 import moduleResolvers from "./resolvers/moduleResolvers";
-import mediaResolvers from "./resolvers/mediaResolvers";
+import mediaResolvers from "./resolvers/mediaContentResolvers";
 import { expressjwt, GetVerificationKey } from "express-jwt";
 import jwksRsa from "jwks-rsa";
 import dotenv from "dotenv";
@@ -42,7 +41,7 @@ app.use(jwtMiddleware);
 // Initialize Apollo Server
 const server = new ApolloServer<GQLBaseContext>({
   typeDefs,
-  resolvers: [userResolvers, moduleResolvers, mediaResolvers],
+  resolvers: [moduleResolvers, mediaResolvers],
 });
 
 app.use("/health", async (_, res) => {
@@ -68,38 +67,6 @@ app.use("/health", async (_, res) => {
     });
   }
 });
-
-if (process.env.ENVIRONMENT === "dev") {
-  app.post("/get-token", jwtMiddleware, async (req, res) => {
-    console.log("Request body: ", req.body);
-    const { username, password } = req.body; // Assuming you send username and password
-
-    if (!username || !password) {
-      return res
-        .status(400)
-        .json({ error: "Username and password are required" });
-    }
-
-    const url = `${process.env.AUTH0_DOMAIN}oauth/token`;
-
-    return axios
-      .post(url, {
-        grant_type: "password",
-        username,
-        password,
-        audience: "your-api-audience", // Your API's audience
-        client_id: process.env.AUTH0_CLIENT_ID,
-        client_secret: process.env.AUTH0_CLIENT_SECRET,
-      })
-      .then((response) => {
-        console.log("Response: ", response.data);
-        res.status(200).json(response.data);
-      })
-      .catch((error) => {
-        res.status(500).json(error);
-      });
-  });
-}
 
 // Start the server
 async function startServer() {

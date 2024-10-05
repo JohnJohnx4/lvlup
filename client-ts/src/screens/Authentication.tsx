@@ -1,17 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export const Authentication = () => {
-  const {
-    user,
-    isAuthenticated,
-    isLoading,
-    logout,
-    loginWithRedirect,
-    getAccessTokenSilently,
-    getAccessTokenWithPopup,
-  } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState(null);
+  const { user, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {

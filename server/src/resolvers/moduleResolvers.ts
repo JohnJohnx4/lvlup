@@ -1,4 +1,4 @@
-import { Module } from "../models/Module";
+import { Module } from "../models/mmodule";
 
 const moduleResolvers = {
   Query: {

@@ -8,6 +8,8 @@ export interface CourseProps {
   description: string;
   buttonText: string;
   href: string;
+  dueDate: Date;
+  assignedDate: Date;
 }
 
 interface CourseCardProps {
@@ -15,7 +17,16 @@ interface CourseCardProps {
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {
-  const { id, title, image, badge, description, buttonText } = course;
+  const {
+    id,
+    title,
+    image,
+    badge,
+    description,
+    buttonText,
+    dueDate,
+    assignedDate,
+  } = course;
 
   return (
     <Card
@@ -36,6 +47,22 @@ export const CourseCard = ({ course }: CourseCardProps) => {
         <Text fw={500}>{title}</Text>
         <Badge color="green">{badge}</Badge>
       </Group>
+
+      <Text size="sm" c="dimmed">
+        Assigned: {assignedDate.toLocaleDateString()}
+      </Text>
+
+      <Text size="sm" c="dimmed">
+        Due:{" "}
+        {(new Date(dueDate).getTime() - new Date().getTime()) /
+          (1000 * 60 * 60 * 24) <
+        14
+          ? `${Math.ceil(
+              (new Date(dueDate).getTime() - new Date().getTime()) /
+                (1000 * 60 * 60 * 24)
+            )} days left`
+          : dueDate.toLocaleDateString()}
+      </Text>
 
       <Text size="sm" c="dimmed">
         {description}

@@ -1,48 +1,85 @@
 const typeDefs = `#graphql
-  type User {
+  type Course {
     id: ID!
-    username: String!
-    email: String!
+    title: String!
+    description: String!
+    createdBy: String!
+    isPublic: Boolean!
+    createdAt: String!
+    updatedAt: String!
+    modules: [Module]
   }
 
   type Module {
     id: ID!
     title: String!
-    description: String
+    description: String!
+    courseId: String!
     type: String!
     pointValue: Int!
-    createdBy: User
+    createdAt: String!
+    media: [MediaContent]
   }
 
-  type MediaFile {
+  type MediaContent {
     id: ID!
     url: String!
+    moduleId: String!
     type: String!
     pointValue: Int!
-    uploadedBy: User
+    createdAt: String!
+  }
+
+  type User {
+    id: ID!
+    username: String!
+    email: String!
+    createdAt: String!
+  }
+
+  type UserCourseAssignment {
+    id: ID!
+    userId: String!
+    courseId: String!
+    assignedBy: String!
+    assignedAt: String!
   }
 
   type Query {
+    courses: [Course]
+    course(id: ID!): Course
     users: [User]
-    modules: [Module]
-    mediaFiles: [MediaFile]
+    user(id: ID!): User
+    modules(courseId: ID!): [Module]
+    media(moduleId: ID!): [MediaContent]
+    userCourseAssignments(userId: ID!): [UserCourseAssignment]
   }
 
   type Mutation {
-    createUser(username: String!, passwordHash: String!, email: String!): User
+    createCourse(
+      title: String!
+      description: String!
+      createdBy: String!
+      isPublic: Boolean
+    ): Course
     createModule(
       title: String!
-      description: String
+      description: String!
+      courseId: String!
       type: String!
       pointValue: Int!
-      createdBy: ID!
     ): Module
-    createMediaFile(
+    createMediaContent(
       url: String!
+      moduleId: String!
       type: String!
       pointValue: Int!
-      uploadedBy: ID!
-    ): MediaFile
+    ): MediaContent
+    assignCourseToUser(
+      userId: ID!
+      courseId: ID!
+      assignedBy: ID!
+    ): UserCourseAssignment
   }
 `;
 
