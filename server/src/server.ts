@@ -1,47 +1,44 @@
-import express from "express";
+import express, { Request } from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import connectDB from "./config/database";
 import typeDefs from "./schemas";
 import moduleResolvers from "./resolvers/moduleResolvers";
 import mediaResolvers from "./resolvers/mediaContentResolvers";
-import { expressjwt, GetVerificationKey } from "express-jwt";
-import jwksRsa from "jwks-rsa";
 import dotenv from "dotenv";
 import { json } from "body-parser";
 import mongoose from "mongoose";
-import axios from "axios";
+import { auth } from "./middleware/auth";
+import courseResolver from "./resolvers/courseResolver";
+import cors from "cors";
 
 export interface GQLBaseContext {
-  user?: any; // Make user optional to match the expected type
+  userId?: any; // Make user optional to match the expected type
 }
 
 dotenv.config();
 
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    credentials: true, // If you need to send cookies or authentication headers
+  })
+);
+
 app.use(express.json());
 
 connectDB(); // Connect to MongoDB
 
 // Auth0 middleware
-const jwtMiddleware = expressjwt({
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 10,
-    jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
-  }) as GetVerificationKey, // Use 'as any' if you're facing typing issues
-  audience: process.env.AUTH0_AUDIENCE,
-  issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-  algorithms: ["RS256"],
-}).unless({ path: ["/graphql", "/health", "/get-token"] }); // Public access to /graphql
-
-app.use(jwtMiddleware);
+// app.use(jwtMiddleware);
+app.use(json());
+app.use(auth);
 
 // Initialize Apollo Server
 const server = new ApolloServer<GQLBaseContext>({
   typeDefs,
-  resolvers: [moduleResolvers, mediaResolvers],
+  resolvers: [courseResolver, moduleResolvers, mediaResolvers],
 });
 
 app.use("/health", async (_, res) => {
@@ -71,7 +68,16 @@ app.use("/health", async (_, res) => {
 // Start the server
 async function startServer() {
   await server.start();
-  app.use("/graphql", json(), expressMiddleware(server));
+
+  app.use(
+    "/graphql",
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        const userId = (req as any).userId; // Access the userId from the request
+        return { userId }; // Return the context
+      },
+    })
+  );
 
   const PORT = process.env.PORT || 4000;
 

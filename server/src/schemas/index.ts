@@ -53,13 +53,14 @@ const typeDefs = `#graphql
     modules(courseId: ID!): [Module]
     media(moduleId: ID!): [MediaContent]
     userCourseAssignments(userId: ID!): [UserCourseAssignment]
+    mediaContent(id: ID!): MediaContent
   }
 
   type Mutation {
     createCourse(
       title: String!
       description: String!
-      createdBy: String!
+      createdBy: String
       isPublic: Boolean
     ): Course
     createModule(
@@ -75,11 +76,18 @@ const typeDefs = `#graphql
       type: String!
       pointValue: Int!
     ): MediaContent
+    updateMediaContent(
+      id: ID!
+      url: String
+      type: String
+      pointValue: Int
+    ): MediaContent
     assignCourseToUser(
       userId: ID!
       courseId: ID!
       assignedBy: ID!
     ): UserCourseAssignment
+    deleteMediaContent(id: ID!): MediaContent
   }
 `;
 

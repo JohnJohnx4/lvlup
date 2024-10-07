@@ -1,4 +1,5 @@
 import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
 export interface CourseProps {
   id: string;
@@ -6,7 +7,6 @@ export interface CourseProps {
   image: string;
   badge: string;
   description: string;
-  buttonText: string;
   href: string;
   dueDate: Date;
   assignedDate: Date;
@@ -17,16 +17,10 @@ interface CourseCardProps {
 }
 
 export const CourseCard = ({ course }: CourseCardProps) => {
-  const {
-    id,
-    title,
-    image,
-    badge,
-    description,
-    buttonText,
-    dueDate,
-    assignedDate,
-  } = course;
+  const { id, title, image, badge, description, dueDate, assignedDate } =
+    course;
+
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -68,8 +62,14 @@ export const CourseCard = ({ course }: CourseCardProps) => {
         {description}
       </Text>
 
-      <Button color="blue" fullWidth mt="md" radius="md">
-        {buttonText}
+      <Button
+        color="blue"
+        fullWidth
+        mt="md"
+        radius="md"
+        onClick={() => navigate("/courses/" + id)}
+      >
+        Open Course
       </Button>
     </Card>
   );

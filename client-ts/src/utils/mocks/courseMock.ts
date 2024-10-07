@@ -1,3 +1,5 @@
+import { CourseDTO } from "src/context/CourseContext";
+
 export const courseMock = {
   id: "1",
   title: "Norway Fjord Adventures",
@@ -20,12 +22,12 @@ export const getRandomDate = (dayOffset: number = 30) => {
 };
 
 export const getCourseArray = (
-  length: number,
+  courses: CourseDTO[],
   sortByDueDate: boolean = false
 ) => {
-  const coursesArray = new Array(length).fill(0).map((_, i) => ({
+  const coursesArray = courses.map((course, i) => ({
     ...courseMock,
-    id: "course-card-" + (i + 1),
+    ...course,
     dueDate: getRandomDate(),
     assignedDate: getRandomDate(-30),
   }));

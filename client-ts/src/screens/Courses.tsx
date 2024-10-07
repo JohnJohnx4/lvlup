@@ -1,10 +1,13 @@
 import { withLayout } from "src/hooks/withLayout";
-import { getCourseArray } from "src/utils/mocks/courseMock";
 import styles from "./index.module.css";
 import { CourseContainer } from "components/CourseContainer/CourseContainer";
+import { GET_COURSES, useCourseQuery } from "src/queries/courseQueries";
 
 const CoursesScreen = () => {
-  const courses = getCourseArray(5);
+  const { loading, error, courses } = useCourseQuery(GET_COURSES);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className={styles.root}>

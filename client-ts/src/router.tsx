@@ -4,6 +4,7 @@ import { Home } from "./screens/Home";
 import { Profile } from "screens/Profile";
 import { Leaderboards } from "screens/Leaderboards";
 import { Courses } from "screens/Courses";
+import { CourseDetails } from "screens/CourseDetails";
 
 export const routes = [
   { name: "Home", path: "/home", id: 1 },
@@ -33,4 +34,12 @@ export const router = createBrowserRouter([
     path: "/courses",
     element: <Courses />,
   },
+  {
+    path: "/courses/:id",
+    element: <CourseDetails />,
+  },
+  // {
+  //   path: "test",
+  //   element: <Demo />,
+  // },
 ]);

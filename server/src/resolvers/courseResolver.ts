@@ -1,16 +1,19 @@
 import Course from "../models/course";
-import { Module } from "../models/mmodule";
+import { Module } from "../models/module";
 import MediaContent from "../models/mediaContent";
 import UserCourseAssignment from "../models/courseAssignment";
-import User from "../models/muser";
+import User from "../models/user";
 
 const courseResolver = {
   Query: {
     courses: async () => {
-      return await Course.find().populate("modules");
+      console.log("courses hit");
+      return await Course.find();
+      // return await Course.find().populate("modules");
     },
     course: async (_: any, { id }: { id: string }) => {
-      return await Course.findById(id).populate("modules");
+      console.log("course hit", id);
+      return await Course.findById(id);
     },
     modules: async (_: any, { courseId }: { courseId: string }) => {
       return await Module.find({ courseId }).populate("media");
@@ -34,16 +37,19 @@ const courseResolver = {
       {
         title,
         description,
-        createdBy,
         isPublic,
-      }: {
-        title: string;
-        description: string;
-        createdBy: string;
-        isPublic: boolean;
-      }
+      }: { title: string; description: string; isPublic: boolean },
+      { userId }: { userId: string } // Access userId from context
     ) => {
-      const newCourse = new Course({ title, description, createdBy, isPublic });
+      if (!userId) {
+        throw new Error("Unauthorized");
+      }
+      const newCourse = new Course({
+        title,
+        description,
+        createdBy: userId,
+        isPublic,
+      });
       return await newCourse.save();
     },
     createModule: async (

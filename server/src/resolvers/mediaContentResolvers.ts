@@ -1,5 +1,5 @@
 import MediaContent from "../models/mediaContent";
-import { Module } from "../models/mmodule";
+import { Module } from "../models/module";
 import { IMediaContent } from "../models/mediaContent";
 
 const mediaContentResolver = {

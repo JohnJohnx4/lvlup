@@ -35,7 +35,7 @@ const ProfileScreen = () => {
 
         const { user_metadata } = await metadataResponse.json();
         console.log("User metadata:", user_metadata);
-        setUserMetadata(user_metadata);
+        setUserMetadata({ ...user_metadata, accessToken });
       } catch (e: any) {
         console.log(e.message);
       }
