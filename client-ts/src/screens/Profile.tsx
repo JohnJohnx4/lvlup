@@ -3,49 +3,11 @@ import { useEffect, useState } from "react";
 import { withLayout } from "src/hooks/withLayout";
 import { Text } from "@mantine/core";
 import styles from "./index.module.css";
+import { useUserContext } from "src/context/UserContext";
 
 const ProfileScreen = () => {
-  const {
-    user,
-    isAuthenticated,
-    getAccessTokenSilently,
-    getAccessTokenWithPopup,
-  } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState(null);
-
-  useEffect(() => {
-    const getUserMetadata = async () => {
-      const domain = import.meta.env.VITE_AUTH0_DOMAIN;
-
-      try {
-        const accessToken = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: `https://${domain}/api/v2/`,
-            scope: "read:current_user",
-          },
-        });
-
-        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
-
-        const metadataResponse = await fetch(userDetailsByIdUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const { user_metadata } = await metadataResponse.json();
-        console.log("User metadata:", user_metadata);
-        setUserMetadata({ ...user_metadata, accessToken });
-      } catch (e: any) {
-        console.log(e.message);
-      }
-    };
-
-    if (user?.sub) {
-      console.log("Getting user metadata...", user);
-      getUserMetadata();
-    }
-  }, [getAccessTokenWithPopup, user?.sub]);
+  const { user, isAuthenticated } = useAuth0();
+  const { userMetadata } = useUserContext();
 
   return (
     <div className={styles.root}>
@@ -60,7 +22,7 @@ const ProfileScreen = () => {
           <h2>Name: {user.name}</h2>
           <p>Email: {user.email}</p>
           <h3>User Metadata</h3>
-          {userMetadata ? (
+          {userMetadata?.user ? (
             <pre>{JSON.stringify(userMetadata, null, 2)}</pre>
           ) : (
             "Looking for user metadata..."

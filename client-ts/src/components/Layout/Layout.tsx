@@ -1,6 +1,8 @@
-import { AppShell, Burger, NavLink } from "@mantine/core";
+// import { useAuth0 } from "@auth0/auth0-react";
+import { AppShell, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { routes } from "src/router";
+import { Navigation } from "./Navbar/NavigationNavbar";
+// import { useUserContext } from "src/context/UserContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,15 +11,19 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const NAVBAR_WIDTH = 200;
+  // const { user, isAuthenticated } = useAuth0();
+  // const { userMetadata } = useUserContext();
+
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
   return (
     <AppShell
-      padding="md"
+      p={"32px 64px"}
       header={{ height: 60 }}
       navbar={{
-        width: 300,
+        width: NAVBAR_WIDTH,
         breakpoint: "sm",
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
@@ -33,16 +39,10 @@ export function Layout({ children }: LayoutProps) {
         <Burger onClick={toggleDesktop} visibleFrom="sm" />
         <Burger onClick={toggleMobile} hiddenFrom="sm" />
       </AppShell.Header>
-      <AppShell.Navbar>
-        {routes.map((route) => (
-          <NavLink
-            href={route.path}
-            label={route.name}
-            key={`navbar-item-${route.id}`}
-          />
-        ))}
-      </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <Navigation />
+      <AppShell.Main id="srdgsrfgwsgerg" mih={"90vh"}>
+        {children}
+      </AppShell.Main>
     </AppShell>
   );
 }

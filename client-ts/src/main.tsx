@@ -9,6 +9,8 @@ import client from "./apolloClient"; // Import the Apollo Client
 import "@mantine/core/styles.css";
 import { router } from "./router.tsx";
 import { ApolloProvider } from "@apollo/client";
+import { CourseProvider } from "./context/CourseContext.tsx";
+import { UserProvider } from "./context/UserContext.tsx";
 
 console.log(import.meta.env);
 
@@ -23,9 +25,13 @@ createRoot(document.getElementById("root")!).render(
       }}
       onRedirectCallback={(param) => console.log("Redirect Callback", param)}
     >
-      <MantineProvider defaultColorScheme={"dark"}>
+      <MantineProvider>
         <ApolloProvider client={client}>
-          <RouterProvider router={router} />
+          <UserProvider>
+            <CourseProvider>
+              <RouterProvider router={router} />
+            </CourseProvider>
+          </UserProvider>
         </ApolloProvider>
       </MantineProvider>
     </Auth0Provider>

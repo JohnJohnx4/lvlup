@@ -1,11 +1,11 @@
-import { CourseDTO } from "src/context/CourseContext";
+import { CourseDTO } from "src/types/courseTypes";
 
 export const courseMock = {
   id: "1",
   title: "Norway Fjord Adventures",
   image:
     "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
-  badge: "On Sale",
+  badge: "New",
   description:
     "With Fjord Tours you can explore more of the magical fjord landscapes with tours and activities on and around the fjords of Norway",
   buttonText: "Book classic tour now",
@@ -40,3 +40,10 @@ export const getCourseArray = (
 
   return coursesArray;
 };
+
+export const getMappedCourse = (course: CourseDTO) => ({
+  ...courseMock,
+  ...course,
+  dueDate: getRandomDate(),
+  assignedDate: getRandomDate(-30),
+});
