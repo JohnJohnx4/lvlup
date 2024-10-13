@@ -1,7 +1,7 @@
-import { withLayout } from "src/hooks/withLayout";
+import { withNavLayout } from "src/hooks/withLayout";
 
 const LeaderboardScreen = () => {
   return <div>Leaderboards</div>;
 };
 
-export const Leaderboards = withLayout(LeaderboardScreen);
+export const Leaderboards = withNavLayout(LeaderboardScreen);

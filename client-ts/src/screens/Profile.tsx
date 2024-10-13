@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { withLayout } from "src/hooks/withLayout";
+import { withNavLayout } from "src/hooks/withLayout";
 import { Text } from "@mantine/core";
 import styles from "./index.module.css";
 import { useUserContext } from "src/context/UserContext";
@@ -33,4 +33,4 @@ const ProfileScreen = () => {
   );
 };
 
-export const Profile = withLayout(ProfileScreen);
+export const Profile = withNavLayout(ProfileScreen);

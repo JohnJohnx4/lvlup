@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
-import { withLayout } from "src/hooks/withLayout";
+import { withNavLayout } from "src/hooks/withLayout";
 import styles from "./index.module.css";
 import { CourseContainer } from "components/CourseContainer/CourseContainer";
 import { GET_COURSES, useCourseQuery } from "src/queries/courseQueries";
@@ -59,4 +59,4 @@ const HomeScreen = () => {
   );
 };
 
-export const Home = withLayout(HomeScreen);
+export const Home = withNavLayout(HomeScreen);

@@ -23,7 +23,7 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({
   const [contextData, setContextData] = useState<any>(null);
 
   const getSingleCourse = (id: string) => {
-    return contextData?.courses.find((course: any) => course.id === id);
+    return contextData?.courses?.find((course: any) => course.id === id);
   };
 
   useEffect(() => {
@@ -32,9 +32,14 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [data]);
 
+  const setSelectedCourse = (id: string) => {
+    const course = getSingleCourse(id);
+    setContextData((prev: any) => ({ ...prev, selectedCourse: course }));
+  };
+
   return (
     <DataContext.Provider
-      value={{ loading, error, contextData, getSingleCourse }}
+      value={{ loading, error, contextData, setSelectedCourse }}
     >
       {children}
     </DataContext.Provider>

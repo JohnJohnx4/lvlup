@@ -1,4 +1,4 @@
-import { withLayout } from "src/hooks/withLayout";
+import { withNavLayout } from "src/hooks/withLayout";
 import styles from "./index.module.css";
 import { CourseContainer } from "components/CourseContainer/CourseContainer";
 import { GET_COURSES, useCourseQuery } from "src/queries/courseQueries";
@@ -20,4 +20,4 @@ const CoursesScreen = () => {
   );
 };
 
-export const Courses = withLayout(CoursesScreen);
+export const Courses = withNavLayout(CoursesScreen);

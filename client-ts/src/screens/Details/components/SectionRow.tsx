@@ -6,7 +6,13 @@ interface ModuleRowProps {
     id: string;
     title: string;
     description: string;
-    modules: string[];
+    modules: {
+      id: string;
+      title: string;
+      description: string;
+      type: string;
+      content: string;
+    }[];
   };
 }
 
@@ -45,7 +51,30 @@ export const SectionRow = ({ section: section }: ModuleRowProps) => {
 
             {section.modules.map((module) => (
               <StyledModuleRow.modules>
-                Module {module} {"\u2714"} {"\u274c"}
+                {module.title} {"\u2714"} {"\u274c"}
+              </StyledModuleRow.modules>
+            ))}
+          </Accordion.Panel>
+        </Accordion.Item>
+      </StyledModuleRow.container>
+    </div>
+  );
+};
+
+export const NavbarSectionRow = ({ section: section }: ModuleRowProps) => {
+  return (
+    <div>
+      <StyledModuleRow.container key={section.id}>
+        <Accordion.Item value={"section-" + section.id}>
+          <Accordion.Control>
+            <StyledModuleRow.titleWrapper>
+              <StyledModuleRow.title>{section.title}</StyledModuleRow.title>
+            </StyledModuleRow.titleWrapper>
+          </Accordion.Control>
+          <Accordion.Panel>
+            {section.modules.map((module) => (
+              <StyledModuleRow.modules>
+                {module.title} {"\u2714"} {"\u274c"}
               </StyledModuleRow.modules>
             ))}
           </Accordion.Panel>

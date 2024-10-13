@@ -2,10 +2,10 @@ import { AppShell, NavLink } from "@mantine/core";
 import { routes } from "src/router";
 import { AdminDropdown } from "../AdminDropdown";
 
-export const Navigation = () => {
+export const NavigationNavbar = () => {
   return (
     <AppShell.Navbar>
-      <AdminDropdown />
+      {/* <AdminDropdown /> */}
       {routes.map((route) => (
         <NavLink
           href={route.path}
