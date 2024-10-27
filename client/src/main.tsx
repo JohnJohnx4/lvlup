@@ -12,8 +12,6 @@ import { ApolloProvider } from "@apollo/client";
 import { CourseProvider } from "./context/CourseContext.tsx";
 import { UserProvider } from "./context/UserContext.tsx";
 
-console.log(import.meta.env);
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Auth0Provider

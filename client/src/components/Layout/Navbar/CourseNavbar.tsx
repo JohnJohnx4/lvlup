@@ -2,12 +2,8 @@ import { Accordion, AppShell, Button, Progress } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { NavbarSectionRow } from "screens/Details/components/SectionRow";
-import { mockSections } from "screens/Details/Details";
+import { mockSections } from "src/utils/mocks/courseMock";
 import { useCourseContext } from "src/context/CourseContext";
-
-// interface CourseNavbarProps {
-
-// }
 
 export const CourseNavbar = () => {
   const { id } = useParams<{ id: string }>();

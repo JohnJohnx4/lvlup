@@ -24,6 +24,7 @@ export function Layout({ children, courseNavbar }: LayoutProps) {
     <AppShell
       p={"32px 64px"}
       header={{ height: 60 }}
+      h={"100%"}
       navbar={{
         width: NAVBAR_WIDTH,
         breakpoint: "sm",
@@ -42,7 +43,9 @@ export function Layout({ children, courseNavbar }: LayoutProps) {
         <Burger onClick={toggleMobile} hiddenFrom="sm" />
       </AppShell.Header>
       {courseNavbar ? <CourseNavbar /> : <NavigationNavbar />}
-      <AppShell.Main mih={"90vh"}>{children}</AppShell.Main>
+      <AppShell.Main mih={"90vh"} h={"100"}>
+        {children}
+      </AppShell.Main>
     </AppShell>
   );
 }
